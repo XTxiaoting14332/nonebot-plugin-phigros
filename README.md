@@ -1,7 +1,7 @@
 <div align="center">
-  <a href="https://v2.nonebot.dev/store"><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
+  <a href="https://v2.nonebot.dev/store"><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
   <br>
-  <p><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
+  <p><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
 </div>
 
 <div align="center">
@@ -14,8 +14,8 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapte
 <a href="./LICENSE">
     <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros-qq.svg" alt="license">
 </a>
-<a href="https://pypi.python.org/pypi/nonebot-plugin-muteme">
-    <img src="https://img.shields.io/pypi/v/nonebot-plugin-example.svg" alt="pypi">
+<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros-qq">
+    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros-qq.svg" alt="pypi">
 </a>
 <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="python">
 
@@ -82,11 +82,11 @@ Secret Token中的内容即为你的sm.ms图床token
 
 ## 配置Phigros API
 **(需要安装Java 17)**
-<h2>访问<a href="https://github.com/7aGiven/PhigrosLibrary/">PhigrosLibrary项目</a></h2>
+<h2>访问<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary/">PhigrosLibrary项目</a></h2>
 
-1）在PhigrosLibrary项目的Releases页面中找到<a href="https://github.com/7aGiven/PhigrosLibrary/releases/tag/v3.1.0">PhigrosLibrary-3.1.0</a>，并下载其中的``PhigrosRpc-nojre-3.1.0.zip``<br>
+1）在PhigrosLibrary项目的Releases页面中找到<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary/releases/tag/v3.1.0">PhigrosLibrary-3.1.0</a>，并下载其中的``PhigrosRpc-nojre-3.1.0.zip``<br>
 2）解压压缩包后需要先**替换其中的difficulty.csv才能正常使用**<br>
-<a href="https://github.com/7aGiven/PhigrosLibrary?tab=readme-ov-file#phigros-%E6%9B%B2%E7%9B%AE%E6%9B%B4%E6%96%B0">点我查看替换教程</a><br>
+<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary?tab=readme-ov-file#phigros-%E6%9B%B2%E7%9B%AE%E6%9B%B4%E6%96%B0">点我查看替换教程</a><br>
 3）使用以下命令启动Phigros API
 
 ```
