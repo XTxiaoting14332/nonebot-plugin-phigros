@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "nonebot_plugin_phigros_qq"
-version = "0.0.2"
+version = "0.0.4"
 description = "一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapter-qq"
 authors = ["【夜风】NightWind <2125714976@qq.com>"]
-license = "MIT"
+license = "GPL3"
 readme = "README.md"
 packages = [{include = "nonebot_plugin_phigros"}]
 homepage = "https://github.com/XTxiaoting14332/nonebot_plugin_phigros_qq"

@@ -22,6 +22,10 @@ __plugin_meta__ = PluginMetadata(
     description="一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapter-qq",
     usage="""使用/phi查看帮助
 """,
+    type="application",
+    homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros-qq",
+    config=Config,
+    supported_adapters={"~qq"},
 )
 
 
