@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_phigros"
-version = "0.0.3"
+version = "0.0.4"
 description = "一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Nonebot2"
 authors = ["【夜风】NightWind <2125714976@qq.com>"]
 license = "GPL3"
