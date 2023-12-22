@@ -6,9 +6,9 @@
 
 <div align="center">
 
-# nonebot-plugin-phigros-qq
+# nonebot-plugin-phigros
 
-_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapter-qq✨_
+_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Nonebot2✨_
 
 
 <a href="./LICENSE">
