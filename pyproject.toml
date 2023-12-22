@@ -6,9 +6,9 @@ authors = ["【夜风】NightWind <2125714976@qq.com>"]
 license = "GPL3"
 readme = "README.md"
 packages = [{include = "nonebot_plugin_phigros"}]
-homepage = "https://github.com/XTxiaoting14332/nonebot_plugin_phigros"
-repository = "https://github.com/XTxiaoting14332/nonebot_plugin_phigros"
-documentation = "https://github.com/XTxiaoting14332/nonebot_plugin_phigros#README.md"
+homepage = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros"
+repository = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros"
+documentation = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros#README.md"
 
 [[tool.poetry.source]]
 name = "tsinghua"
