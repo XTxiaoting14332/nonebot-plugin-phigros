@@ -17,7 +17,7 @@ from .config import Config
 
 
 __plugin_meta__ = PluginMetadata(
-    name="Phigros查分器（adapter-qq）",
+    name="Phigros查分器`",
     description="一个简单的基于PhigrosLibrary的Phigros查分插件",
     usage="""使用/phi查看帮助
 """,
