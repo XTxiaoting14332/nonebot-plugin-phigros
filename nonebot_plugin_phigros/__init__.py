@@ -1,14 +1,14 @@
 from nonebot import on_command
 from nonebot import get_driver
-from requests import Session
 from nonebot.plugin import PluginMetadata
 from nonebot.log import logger
 from nonebot.adapters.qq import Event, event, Bot, Message, MessageSegment
+from nonebot_plugin_session import extract_session, SessionIdType
 from nonebot.matcher import Matcher
 from nonebot.params import ArgPlainText, CommandArg
 from pathlib import Path
 import sqlite3
-import requests
+import httpx
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import socket
@@ -16,16 +16,14 @@ import uuid
 from .config import Config
 
 
-
 __plugin_meta__ = PluginMetadata(
     name="Phigros查分器（adapter-qq）",
-    description="一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapter-qq",
+    description="一个简单的基于PhigrosLibrary的Phigros查分插件",
     usage="""使用/phi查看帮助
 """,
     type="application",
-    homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros-qq",
+    homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros",
     config=Config,
-    supported_adapters={"~qq"},
 )
 
 
@@ -38,7 +36,7 @@ db = sqlite3.connect("data/phigros/binded.db")
 cursor = db.cursor()
 
 config = Config.parse_obj(get_driver().config)
-s = Session()
+
 
 
 #初始化数据库
@@ -163,7 +161,7 @@ def upload_to_image_host(filename):
     api_url = 'https://sm.ms/api/v2/upload'
     headers = {"Authorization": token}
 
-    response = requests.post(api_url, files=files, headers=headers)
+    response = httpx.post(api_url, files=files, headers=headers)
     json_data = response.json()
     try:
         if json_data["code"] == "success":
@@ -185,7 +183,6 @@ else:
 
 
 
-s = Session()
 
 phi = on_command('phi help',aliases={'phi'})
 unbind = on_command('phi unbind',aliases={'phi 解绑'})
@@ -208,7 +205,8 @@ async def _handle(matcher: Matcher, token: Message = CommandArg()):
 @bind.got('token', prompt='请at机器人后发送你的token')
 async def _(event: Event, bot: Bot,token: str = ArgPlainText('token')):
     if token[0]!='_':
-        id = event.get_user_id()
+        session = extract_session(bot, event)
+        id = session.get_id(SessionIdType.USER) 
         if not select_token(id):
             insert_tb(id,token)
             await bind.finish("绑定成功，请及时撤回你的token")
@@ -221,7 +219,8 @@ async def _(event: Event, bot: Bot,token: str = ArgPlainText('token')):
 
 @unbind.handle()
 async def unbind_handle(event: Event,bot: Bot):
-    id = event.get_user_id()
+    session = extract_session(bot, event)
+    id = session.get_id(SessionIdType.USER) 
     if not select_token(id):
         await unbind.finish('你还没有绑定你的phigros账号！')
     else:
@@ -232,14 +231,15 @@ async def unbind_handle(event: Event,bot: Bot):
 
 @info.handle()
 async def info_handle(event: Event, bot: Bot):
-    id = event.get_user_id()
+    session = extract_session(bot, event)
+    id = session.get_id(SessionIdType.USER) 
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
     else:
         try:
             id, token = result[0]
-            result = s.get(f"{api}/saveUrl/%s" % token)
+            result = httpx.get(f"{api}/saveUrl/%s" % token)
             json = result.json()
             saveUrl = json["saveUrl"]
             rks = json["RKS"]
@@ -248,28 +248,29 @@ async def info_handle(event: Event, bot: Bot):
             HD = json["HD"]
             IN = json["IN"]
             AT = json["AT"]
-            playerid = s.get(f"{api}/playerId/%s" % token)
+            playerid = httpx.get(f"{api}/playerId/%s" % token)
             msg = f"\n玩家概览\n玩家id：{playerid.text}\n课题分：{ktf}\nRanking Score：{rks}\n歌曲游玩进度[Cleared, Full Combo, Phi]\nEZ{EZ}\nHD{HD}\nIN{IN}\nAT{AT}"
             await info.finish(msg)
-        except requests.exceptions.JSONDecodeError:
+        except httpx.HTTPError:
             msg = "查无此人，请检查你的token是否正确"
             await info.finish(msg)
 
 
 @b19.handle()
 async def b19_handle(event: Event,bot: Bot):
-    id = event.get_user_id()
+    session = extract_session(bot, event)
+    id = session.get_id(SessionIdType.USER) 
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
     else:
         try:
             id, token = result[0]
-            result = s.get(f"{api}/saveUrl/%s" % token)
+            result = httpx.get(f"{api}/saveUrl/%s" % token)
             json = result.json()
             saveUrl = json["saveUrl"]
-            playerid = s.get(f"{api}/playerId/%s" % token)
-            b19_get = s.get(f"{api}/b19/%s" % saveUrl)
+            playerid = httpx.get(f"{api}/playerId/%s" % token)
+            b19_get = httpx.get(f"{api}/b19/%s" % saveUrl)
             b19_json = b19_get.json()
             #各种项目
             songid = [entry["songId"] for entry in b19_json]
@@ -465,7 +466,7 @@ async def b19_handle(event: Event,bot: Bot):
             image_data = generate_text_image(msg, "data/phigros/cache/"+filename)
             direct_link = upload_to_image_host(filename)
             await b19.finish(MessageSegment.image(direct_link))
-        except requests.exceptions.JSONDecodeError:
+        except httpx.HTTPError:
             msg = "出错了，请重试"
             await b19.finish(msg)
 

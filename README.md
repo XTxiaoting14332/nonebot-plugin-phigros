@@ -12,10 +12,10 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapte
 
 
 <a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros-qq.svg" alt="license">
+    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros.svg" alt="license">
 </a>
-<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros-qq">
-    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros-qq.svg" alt="pypi">
+<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros">
+    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros.svg" alt="pypi">
 </a>
 <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="python">
 
@@ -35,23 +35,23 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapte
 <summary>使用 nb-cli 安装</summary>
 在 nonebot2 项目的根目录下打开命令行, 输入以下指令安装
 
-    nb plugin install nonebot-plugin-phigros-qq
+    nb plugin install nonebot-plugin-phigros
 
 </details>
 
 <details>
 <summary>pip安装</summary>
 
-    pip install nonebot-plugin-phigros-qq
+    pip install nonebot-plugin-phigros
 
 打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
 
-    plugins = ["nonebot_plugin_phigros_qq"]
+    plugins = ["nonebot_plugin_phigros"]
 </details>
 <details>
 <summary>Github下载</summary>
-手动克隆本仓库或直接下载压缩包，将里面的nonebot_plugin_phigros_qq文件夹复制到src/plugins中
-**记得安装Pillow库**
+手动克隆本仓库或直接下载压缩包，将里面的nonebot_plugin_phigros文件夹复制到src/plugins中
+**记得安装Pillow和httpx库**
 </details>
 
 
