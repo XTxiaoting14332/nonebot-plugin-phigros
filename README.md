@@ -1,21 +1,21 @@
 <div align="center">
-  <a href="https://v2.nonebot.dev/store"><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
+  <a href="https://v2.nonebot.dev/store"><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
   <br>
-  <p><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
+  <p><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
 </div>
 
 <div align="center">
 
 # nonebot-plugin-phigros
 
-_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Nonebot2✨_
+_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于nonebot-adapter-qq✨_
 
 
 <a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros.svg" alt="license">
+    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros-qq.svg" alt="license">
 </a>
-<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros">
-    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros.svg" alt="pypi">
+<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros-qq">
+    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros-qq.svg" alt="pypi">
 </a>
 <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="python">
 

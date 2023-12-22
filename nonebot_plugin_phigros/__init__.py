@@ -3,7 +3,6 @@ from nonebot import get_driver
 from nonebot.plugin import PluginMetadata
 from nonebot.log import logger
 from nonebot.adapters.qq import Event, event, Bot, Message, MessageSegment
-from nonebot_plugin_session import extract_session, SessionIdType
 from nonebot.matcher import Matcher
 from nonebot.params import ArgPlainText, CommandArg
 from pathlib import Path
@@ -18,12 +17,13 @@ from .config import Config
 
 __plugin_meta__ = PluginMetadata(
     name="Phigros查分器`",
-    description="一个简单的基于PhigrosLibrary的Phigros查分插件",
+    description="一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adaper-qq",
     usage="""使用/phi查看帮助
 """,
     type="application",
     homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros",
     config=Config,
+    supported_adapters={"~qq"},
 )
 
 
@@ -205,8 +205,7 @@ async def _handle(matcher: Matcher, token: Message = CommandArg()):
 @bind.got('token', prompt='请at机器人后发送你的token')
 async def _(event: Event, bot: Bot,token: str = ArgPlainText('token')):
     if token[0]!='_':
-        session = extract_session(bot, event)
-        id = session.get_id(SessionIdType.USER) 
+        id = event.get_user_id()
         if not select_token(id):
             insert_tb(id,token)
             await bind.finish("绑定成功，请及时撤回你的token")
@@ -219,8 +218,7 @@ async def _(event: Event, bot: Bot,token: str = ArgPlainText('token')):
 
 @unbind.handle()
 async def unbind_handle(event: Event,bot: Bot):
-    session = extract_session(bot, event)
-    id = session.get_id(SessionIdType.USER) 
+    id = event.get_user_id()
     if not select_token(id):
         await unbind.finish('你还没有绑定你的phigros账号！')
     else:
@@ -231,8 +229,7 @@ async def unbind_handle(event: Event,bot: Bot):
 
 @info.handle()
 async def info_handle(event: Event, bot: Bot):
-    session = extract_session(bot, event)
-    id = session.get_id(SessionIdType.USER) 
+    id = event.get_user_id()
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
@@ -258,8 +255,7 @@ async def info_handle(event: Event, bot: Bot):
 
 @b19.handle()
 async def b19_handle(event: Event,bot: Bot):
-    session = extract_session(bot, event)
-    id = session.get_id(SessionIdType.USER) 
+    id = event.get_user_id()
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
