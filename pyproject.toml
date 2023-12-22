@@ -21,7 +21,7 @@ nonebot2 = ">=2.0.0rc1"
 httpx = ">=0.22.0"
 ujson = ">=5.0.0"
 Pillow = ">=9.0.0"
-
+nonebot_plugin_session = ">=0.2.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
