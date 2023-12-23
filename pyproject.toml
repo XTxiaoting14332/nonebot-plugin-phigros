@@ -5,7 +5,7 @@ description = "一个简单的基于PhigrosLibrary的Phigros查分插件，适�
 authors = ["【夜风】NightWind <2125714976@qq.com>"]
 license = "GPL3"
 readme = "README.md"
-packages = [{include = "nonebot_plugin_phigros"}]
+packages = [{include = "nonebot_plugin_phigros_qq"}]
 homepage = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros-qq"
 repository = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros-qq"
 documentation = "https://github.com/XTxiaoting14332/nonebot-plugin-phigros-qq#README.md"
