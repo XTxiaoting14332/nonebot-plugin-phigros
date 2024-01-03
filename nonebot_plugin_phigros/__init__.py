@@ -188,7 +188,7 @@ phi = on_command('phi help',aliases={'phi'})
 unbind = on_command('phi unbind',aliases={'phi 解绑'})
 bind = on_command('phi bind', aliases={'phi 绑定'})
 info = on_command('phi info', aliases={'phi 用户信息'})
-b19 = on_command('phi b19',aliases={''})
+b19 = on_command('phi b19',aliases={'phi bset19'})
 
 @phi.handle()
 async def phi_handle(event: Event,bot: Bot):
@@ -197,23 +197,17 @@ async def phi_handle(event: Event,bot: Bot):
 
 
 @bind.handle()
-async def _handle(matcher: Matcher, token: Message = CommandArg()):
-    if token.extract_plain_text() and token.extract_plain_text()[0]!='_':
-        matcher.set_arg('token', token)
-
-
-@bind.got('token', prompt='请at机器人后发送你的token')
-async def _(event: Event, bot: Bot,token: str = ArgPlainText('token')):
-    if token[0]!='_':
+async def _handle(event: Event, token: Message = CommandArg()):
+    if len(token) != 0:
         id = event.get_user_id()
         if not select_token(id):
             insert_tb(id,token)
             await bind.finish("绑定成功，请及时撤回你的token")
         else:
             await bind.finish("你已经绑定过了！")
-
     else:
-        await bind.reject_arg('token',prompt='不能使用“_”作为前缀')
+        await bind.finish("请在命令中带上你的token！")
+
 
 
 @unbind.handle()
