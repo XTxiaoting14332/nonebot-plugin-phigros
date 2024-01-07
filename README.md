@@ -1,7 +1,7 @@
 <div align="center">
-  <a href="https://v2.nonebot.dev/store"><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
+  <a href="https://v2.nonebot.dev/store"><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
   <br>
-  <p><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
+  <p><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
 </div>
 
 <div align="center">
@@ -35,22 +35,23 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于nonebo
 <summary>使用 nb-cli 安装</summary>
 在 nonebot2 项目的根目录下打开命令行, 输入以下指令安装
 
-    nb plugin install nonebot-plugin-phigros
+    nb plugin install nonebot-plugin-phigros-qq
 
 </details>
 
 <details>
 <summary>pip安装</summary>
 
-    pip install nonebot-plugin-phigros
+    pip install nonebot-plugin-phigros-qq
 
 打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
 
-    plugins = ["nonebot_plugin_phigros"]
+    plugins = ["nonebot_plugin_phigros_qq"]
 </details>
 <details>
 <summary>Github下载</summary>
 手动克隆本仓库或直接下载压缩包，将里面的nonebot_plugin_phigros文件夹复制到src/plugins中
+  
 **记得安装Pillow和httpx库**
 </details>
 
