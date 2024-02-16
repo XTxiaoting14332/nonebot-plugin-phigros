@@ -469,7 +469,6 @@ async def b19_handle(id: str = SessionId(SessionIdType.USER)):
                 await b19.finish(MessageSegment.image(direct_link))
             else:
                 await Image(Path("data/phigros/cache/"+filename)).finish()
-                pass
         except httpx.HTTPError:
             msg = "出错了，请重试"
             await b19.finish(msg)
