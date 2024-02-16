@@ -1,21 +1,21 @@
 <div align="center">
-  <a href="https://v2.nonebot.dev/store"><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
+  <a href="https://v2.nonebot.dev/store"><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/nbp_logo.png" width="180" height="180" alt="NoneBotPluginLogo"></a>
   <br>
-  <p><img src="https://hub.xb6868.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
+  <p><img src="https://github.com/A-kirami/nonebot-plugin-template/blob/resources/NoneBotPlugin.svg" width="240" alt="NoneBotPluginText"></p>
 </div>
 
 <div align="center">
 
 # nonebot-plugin-phigros
 
-_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于nonebot-adapter-qq✨_
+_✨ 一个简单的基于PhigrosLibrary的Phigros查分插件✨_
 
 
 <a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros-qq.svg" alt="license">
+    <img src="https://img.shields.io/github/license/XTxiaoting14332/nonebot-plugin-phigros.svg" alt="license">
 </a>
-<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros-qq">
-    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros-qq.svg" alt="pypi">
+<a href="https://pypi.python.org/pypi/nonebot-plugin-phigros">
+    <img src="https://img.shields.io/pypi/v/nonebot-plugin-phigros.svg" alt="pypi">
 </a>
 <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="python">
 
@@ -25,8 +25,22 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于nonebo
 
 ## 📖 介绍
 
-一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adapter-qq<br>
+一个简单的基于PhigrosLibrary的Phigros查分插件<br>
 使用/phi命令查看完整指令列表
+
+
+## 💪 当前支持的适配器
+``QQ``	<br>
+``OneBot v11``<br>
+``OneBot v12``<br>
+``Kaiheila``<br>
+``Telegram``<br>
+``Feishu``	<br>
+``Red``	<br>
+``DoDo``<br>
+除了QQ外，其他适配器均未测试，如有问题请提issue反馈！
+
+<br>
 
 
 ## 💿 安装
@@ -35,18 +49,18 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件，适用于nonebo
 <summary>使用 nb-cli 安装</summary>
 在 nonebot2 项目的根目录下打开命令行, 输入以下指令安装
 
-    nb plugin install nonebot-plugin-phigros-qq
+    nb plugin install nonebot-plugin-phigros
 
 </details>
 
 <details>
 <summary>pip安装</summary>
 
-    pip install nonebot-plugin-phigros-qq
+    pip install nonebot-plugin-phigros
 
 打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
 
-    plugins = ["nonebot_plugin_phigros_qq"]
+    plugins = ["nonebot_plugin_phigros"]
 </details>
 <details>
 <summary>Github下载</summary>
@@ -83,11 +97,11 @@ Secret Token中的内容即为你的sm.ms图床token
 
 ## 配置Phigros API
 **(需要安装Java 17)**
-<h2>访问<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary/">PhigrosLibrary项目</a></h2>
+<h2>访问<a href="https://github.com/7aGiven/PhigrosLibrary/">PhigrosLibrary项目</a></h2>
 
-1）在PhigrosLibrary项目的Releases页面中找到<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary/releases/tag/v3.1.0">PhigrosLibrary-3.1.0</a>，并下载其中的``PhigrosRpc-nojre-3.1.0.zip``<br>
+1）在PhigrosLibrary项目的Releases页面中找到<a href="https://github.com/7aGiven/PhigrosLibrary/releases/tag/v3.1.0">PhigrosLibrary-3.1.0</a>，并下载其中的``PhigrosRpc-nojre-3.1.0.zip``<br>
 2）解压压缩包后需要先**替换其中的difficulty.csv才能正常使用**<br>
-<a href="https://hub.xb6868.com/7aGiven/PhigrosLibrary?tab=readme-ov-file#phigros-%E6%9B%B2%E7%9B%AE%E6%9B%B4%E6%96%B0">点我查看替换教程</a><br>
+<a href="https://github.com/7aGiven/PhigrosLibrary?tab=readme-ov-file#phigros-%E6%9B%B2%E7%9B%AE%E6%9B%B4%E6%96%B0">点我查看替换教程</a><br>
 3）使用以下命令启动Phigros API
 
 ```
@@ -99,17 +113,23 @@ java -jar PhigrosRpc-3.1.0-all.jar 9090
 
 <br><br>
 
+
+
+
 ## 🔧配置项
 ### 必填项
 
 ```
-#sm.ms图床的Token，不填则无法发送图片
-phigros_smms_token = 你的sm.ms的用户token
+#适配器是否为adapter-qq,默认为False，如果是请填True
+phigros_adapter_qq = False
 ```
 
 ### 非必填项
 
 ```
+#sm.ms图床的Token，不填将无法在adapter-qq下发送图片
+phigros_smms_token = 你的sm.ms的用户token
+
 #PhigrosLibrary的api地址，默认为http://127.0.0.1
 phigros_api_host = http://127.0.0.1
 
