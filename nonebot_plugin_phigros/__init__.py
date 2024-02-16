@@ -472,4 +472,3 @@ async def b19_handle(id: str = SessionId(SessionIdType.USER)):
         except httpx.HTTPError:
             msg = "出错了，请重试"
             await b19.finish(msg)
-
