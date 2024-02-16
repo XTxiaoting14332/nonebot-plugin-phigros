@@ -64,9 +64,10 @@ _✨ 一个简单的基于PhigrosLibrary的Phigros查分插件✨_
 </details>
 <details>
 <summary>Github下载</summary>
-手动克隆本仓库或直接下载压缩包，将里面的nonebot_plugin_phigros文件夹复制到src/plugins中
-  
-**记得安装Pillow和httpx库**
+手动克隆本仓库或直接下载压缩包，将里面的nonebot_plugin_phigros文件夹复制到src/plugins中,并安装以下依赖
+
+    httpx Pillow nonebot-plugin-send-anything-anywhere nonebot-plugin-session
+
 </details>
 
 
