@@ -2,7 +2,6 @@ from nonebot import on_command
 from nonebot import get_driver
 from nonebot.plugin import PluginMetadata
 from nonebot.log import logger
-from nonebot.adapters.qq import Event, event, Bot, Message, MessageSegment
 from nonebot.matcher import Matcher
 from nonebot.params import ArgPlainText, CommandArg
 from pathlib import Path
@@ -13,17 +12,18 @@ from io import BytesIO
 import socket
 import uuid
 from .config import Config
+from nonebot_plugin_session import SessionId, SessionIdType
 
 
 __plugin_meta__ = PluginMetadata(
-    name="Phigros查分器(Adapter-qq)",
-    description="一个简单的基于PhigrosLibrary的Phigros查分插件，适用于Adaper-qq",
+    name="Phigros查分器",
+    description="一个简单的基于PhigrosLibrary的Phigros查分插件",
     usage="""使用/phi查看帮助
 """,
     type="application",
     homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros",
     config=Config,
-    supported_adapters={"~qq"},
+    supported_adapters={"~qq","~onebot.v11","~onebot.v12","~telegram","~kaiheila","~feishu","~red","~dodo"},
 )
 
 
@@ -34,8 +34,21 @@ cache_dir.mkdir(parents=True, exist_ok=True)
 datapath = "data/phigros/"
 db = sqlite3.connect("data/phigros/binded.db")
 cursor = db.cursor()
-
 config = Config.parse_obj(get_driver().config)
+#读取配置
+ip = config.phigros_api_host.replace("http://","")
+ip = ip.replace("https://","")
+port = int(config.phigros_api_port)
+api = str(f"{config.phigros_api_host}:{config.phigros_api_port}")
+adpqq = config.phigros_adapter_qq
+
+#判断是否为adapter-qq
+if adpqq == True:
+    from nonebot.adapters.qq import Event, event, Bot, Message, MessageSegment
+else:
+    from nonebot import require
+    require("nonebot_plugin_saa")
+    from nonebot_plugin_saa import Image
 
 
 
@@ -92,11 +105,6 @@ def get_rank(score,fc):
         rank = "NaN"
     return rank
 
-
-ip = config.phigros_api_host.replace("http://","")
-ip = ip.replace("https://","")
-port = int(config.phigros_api_port)
-api = str(f"{config.phigros_api_host}:{config.phigros_api_port}")
 
 
 def is_connection_successful(ip, port):
@@ -177,7 +185,7 @@ def upload_to_image_host(filename):
 
 token = config.phigros_smms_token
 if len(token) == 0:
-    logger.error("[Phigros]sm.ms图床token未配置！将无法发送图片！")
+    logger.error("[Phigros]sm.ms图床token未配置！在adapter-qq下将无法发送图片！")
 else:
     logger.info("[Phigros]读取到sm.ms的token")
 
@@ -191,15 +199,15 @@ info = on_command('phi info', aliases={'phi 用户信息'})
 b19 = on_command('phi b19',aliases={'phi bset19'})
 
 @phi.handle()
-async def phi_handle(event: Event,bot: Bot):
+async def phi_handle():
     msg = "\n/phi bind 你的token\t--绑定Phigros帐号\n/phi unbind\t--解除绑定\n/phi info\t--个人概览\n/phi b19\t--获取b19成绩"
     await phi.finish(msg)
 
 
 @bind.handle()
-async def _handle(event: Event, token: Message = CommandArg()):
+async def _handle(id: str = SessionId(SessionIdType.USER), token: Message = CommandArg()):
     if len(token) != 0:
-        id = event.get_user_id()
+        id = id
         if not select_token(id):
             insert_tb(id,token)
             await bind.finish("绑定成功，请及时撤回你的token")
@@ -222,8 +230,8 @@ async def unbind_handle(event: Event,bot: Bot):
 
 
 @info.handle()
-async def info_handle(event: Event, bot: Bot):
-    id = event.get_user_id()
+async def info_handle(id: str = SessionId(SessionIdType.USER)):
+    id = id
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
@@ -243,18 +251,19 @@ async def info_handle(event: Event, bot: Bot):
             msg = f"\n玩家概览\n玩家id：{playerid.text}\n课题分：{ktf}\nRanking Score：{rks}\n歌曲游玩进度[Cleared, Full Combo, Phi]\nEZ{EZ}\nHD{HD}\nIN{IN}\nAT{AT}"
             await info.finish(msg)
         except httpx.HTTPError:
-            msg = "查无此人，请检查你的token是否正确"
+            msg = "出错了，请重试"
             await info.finish(msg)
 
 
 @b19.handle()
-async def b19_handle(event: Event,bot: Bot):
-    id = event.get_user_id()
+async def b19_handle(id: str = SessionId(SessionIdType.USER)):
+    id = id
     result = select_token(id)
     if not result:
         await info.finish('你还没有绑定你的phigros账号！请先使用/phi bind命令绑定')
     else:
         try:
+            #解析存档
             id, token = result[0]
             result = httpx.get(f"{api}/saveUrl/%s" % token)
             json = result.json()
@@ -272,6 +281,7 @@ async def b19_handle(event: Event,bot: Bot):
             fc = [entry["fc"] for entry in b19_json]
 
             #屎山
+            #别骂了别骂了我真的不会渲染图片😭😭😭
             #曲目
             s1 = songid[0]
             s2 = songid[1]
@@ -453,9 +463,13 @@ async def b19_handle(event: Event,bot: Bot):
 
             msg = f"\n{playerid.text}的Best19：\n[BestPhi]\n{s1}[{r1}]\n难度：{l1}\n定数：{rank1}\n分数：{sc1}\nACC：{acc1}\n单曲rks：{s_rks1}\n\n{s2}[{r2}]\n难度：{l2}\n定数：{rank2}\n分数：{sc2}\nACC：{acc2}\n单曲rks：{s_rks2}\n\n{s3}[{r3}]\n难度：{l3}\n定数：{rank3}\n分数：{sc3}\nACC：{acc3}\n单曲rks：{s_rks3}\n\n{s4}[{r4}]\n难度：{l4}\n定数：{rank4}\n分数：{sc4}\nACC：{acc4}\n单曲rks：{s_rks4}\n\n{s5}[{r5}]\n难度：{l5}\n定数：{rank5}\n分数：{sc5}\nACC：{acc5}\n单曲rks：{s_rks5}\n\n{s6}[{r6}]\n难度：{l6}\n定数：{rank6}\n分数：{sc6}\nACC：{acc6}\n单曲rks：{s_rks6}\n\n{s7}[{r7}]\n难度：{l7}\n定数：{rank7}\n分数：{sc7}\nACC：{acc7}\n单曲rks：{s_rks7}\n\n{s8}[{r8}]\n难度：{l8}\n定数：{rank8}\n分数：{sc8}\nACC：{acc8}\n单曲rks：{s_rks8}\n\n{s9}[{r9}]\n难度：{l9}\n定数：{rank9}\n分数：{sc9}\nACC：{acc9}\n单曲rks：{s_rks9}\n\n{s10}[{r10}]\n难度：{l10}\n定数：{rank10}\n分数：{sc10}\nACC：{acc10}\n单曲rks：{s_rks10}\n\n{s11}[{r11}]\n难度：{l11}\n定数：{rank11}\n分数：{sc11}\nACC：{acc11}\n单曲rks：{s_rks11}\n\n{s12}[{r12}]\n难度：{l12}\n定数：{rank12}\n分数：{sc12}\nACC：{acc12}\n单曲rks：{s_rks12}\n\n{s13}[{r13}]\n难度：{l13}\n定数：{rank13}\n分数：{sc13}\nACC：{acc13}\n单曲rks：{s_rks13}\n\n{s14}[{r14}]\n难度：{l14}\n定数：{rank14}\n分数：{sc14}\nACC：{acc14}\n单曲rks：{s_rks14}\n\n{s15}[{r15}]\n难度：{l15}\n定数：{rank15}\n分数：{sc15}\nACC：{acc15}\n单曲rks：{s_rks15}\n\n{s16}[{r16}]\n难度：{l16}\n定数：{rank16}\n分数：{sc16}\nACC：{acc16}\n单曲rks：{s_rks16}\n\n{s17}[{r17}]\n难度：{l17}\n定数：{rank17}\n分数：{sc17}\nACC：{acc17}\n单曲rks：{s_rks17}\n\n{s18}[{r18}]\n难度：{l18}\n定数：{rank18}\n分数：{sc18}\nACC：{acc18}\n单曲rks：{s_rks18}\n\n{s19}[{r19}]\n难度：{l19}\n定数：{rank19}\n分数：{sc19}\nACC：{acc19}\n单曲rks：{s_rks19}\n\n{s20}[{r20}]\n难度：{l20}\n定数：{rank20}\n分数：{sc20}\nACC：{acc20}\n单曲rks：{s_rks20}\n"
             filename = str(uuid.uuid4()) + ".png"
-            image_data = generate_text_image(msg, "data/phigros/cache/"+filename)
-            direct_link = upload_to_image_host(filename)
-            await b19.finish(MessageSegment.image(direct_link))
+            generate_text_image(msg, "data/phigros/cache/"+filename)
+            if adpqq == True:
+                direct_link = upload_to_image_host(filename)
+                await b19.finish(MessageSegment.image(direct_link))
+            else:
+                await Image(Path("data/phigros/cache/"+filename)).finish()
+                pass
         except httpx.HTTPError:
             msg = "出错了，请重试"
             await b19.finish(msg)

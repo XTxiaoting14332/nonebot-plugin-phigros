@@ -1,5 +1,5 @@
 from os import path
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
 class Config(BaseModel):
     #PhigrosLibrary的api地址，默认为http://127.0.0.1
@@ -17,4 +17,7 @@ class Config(BaseModel):
 
     #sm.ms图床的Token
     phigros_smms_token: str = ""
+
+    #适配器是否为adapter-qq,默认为False
+    phigros_adapter_qq: bool = False
 
