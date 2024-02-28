@@ -1,5 +1,5 @@
 from nonebot import on_command
-from nonebot import get_driver
+from nonebot import get_driver,get_plugin_config
 from nonebot.plugin import PluginMetadata
 from nonebot.log import logger
 from nonebot.matcher import Matcher
@@ -11,7 +11,8 @@ from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import socket
 import uuid
-from .config import Config
+from .config import Config as cfg
+config = get_plugin_config(cfg)
 from nonebot_plugin_session import SessionId, SessionIdType
 
 
@@ -22,7 +23,7 @@ __plugin_meta__ = PluginMetadata(
 """,
     type="application",
     homepage="https://github.com/XTxiaoting14332/nonebot-plugin-phigros",
-    config=Config,
+    config=config,
     supported_adapters={"~qq","~onebot.v11","~onebot.v12","~telegram","~kaiheila","~feishu","~red","~dodo"},
 )
 
@@ -34,7 +35,6 @@ cache_dir.mkdir(parents=True, exist_ok=True)
 datapath = "data/phigros/"
 db = sqlite3.connect("data/phigros/binded.db")
 cursor = db.cursor()
-config = Config.parse_obj(get_driver().config)
 #读取配置
 ip = config.phigros_api_host.replace("http://","")
 ip = ip.replace("https://","")
